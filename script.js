@@ -53,9 +53,8 @@ svgCancellations.append("g")
 // Títol del gràfic de cancel·lacions
 svgCancellations.append("text")
     .attr("x", width / 2)
-    .attr("y", -10)
-    .attr("text-anchor", "middle")
-    .attr("font-size", "16px")
+    .attr("y", -margin.top / 2) // Ajustat perquè quedi dins del marge superior
+    .attr("class", "title")
     .text("Percentatge de cancel·lacions segons el segment de mercat");
 
 // Dades de mostra per al gràfic de calor
@@ -127,7 +126,6 @@ svgHeatmap.append("g")
 // Títol del gràfic de calor
 svgHeatmap.append("text")
     .attr("x", width / 2)
-    .attr("y", -10)
-    .attr("text-anchor", "middle")
-    .attr("font-size", "16px")
+    .attr("y", -margin.top / 2) // Ajustat perquè quedi dins del marge superior
+    .attr("class", "title")
     .text("Gràfic de calor: Ocupació segons mes i any");
