@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+#scrollytelling {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.text {
+    width: 40%;
+    padding: 20px;
+    background: #f9f9f9;
+    overflow-y: auto;
+}
+
+.graphic {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e9ecef;
+}
+
+#viz {
+    width: 80%;
+    height: 80%;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
