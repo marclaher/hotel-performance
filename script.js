@@ -55,3 +55,44 @@ svg.append("text")
     .attr("text-anchor", "middle")
     .attr("font-size", "16px")
     .text("Percentatge de cancel·lacions segons el segment de mercat");
+
+
+
+    // Dades de mostra per a l'estacionalitat (anys, mesos i ocupació)
+const heatmapData = [
+    { year: 2015, month: "January", occupancy: 45 },
+    { year: 2015, month: "February", occupancy: 50 },
+    { year: 2015, month: "March", occupancy: 55 },
+    { year: 2015, month: "April", occupancy: 60 },
+    { year: 2015, month: "May", occupancy: 65 },
+    { year: 2015, month: "June", occupancy: 70 },
+    { year: 2015, month: "July", occupancy: 85 },
+    { year: 2015, month: "August", occupancy: 80 },
+    { year: 2015, month: "September", occupancy: 60 },
+    { year: 2015, month: "October", occupancy: 55 },
+    { year: 2015, month: "November", occupancy: 50 },
+    { year: 2015, month: "December", occupancy: 45 },
+    { year: 2016, month: "January", occupancy: 50 },
+    // (afegir més dades segons necessitats)
+];
+
+// Ordenar els mesos per ordre cronològic
+const monthsOrder = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+];
+
+// Escales
+const heatmapX = d3.scaleBand()
+    .domain(monthsOrder)
+    .range([0, width])
+    .padding(0.05);
+
+const heatmapY = d3.scaleBand()
+    .domain([...new Set(heatmapData.map(d => d.year))])
+    .range([0, height])
+    .padding(0.05);
+
+const colorScale = d3.scaleLinear()
+    .domain([40, 100]) // Ajusta segons els valors d'ocupació
+    .range(["#e0f3f3", "#007f7f"]);
