@@ -33,3 +33,12 @@ body {
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+#viz svg {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+#viz text {
+    fill: #333;
+}
