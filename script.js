@@ -1,7 +1,8 @@
 // Configuració global per als gràfics
-const margin = { top: 20, right: 30, bottom: 50, left: 70 };
+const margin = { top: 40, right: 30, bottom: 50, left: 70 }; // Augmentem el marge superior
 const width = 800 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
+
 
 // Dades de mostra per al gràfic de cancel·lacions
 const data = [
