@@ -1,16 +1,9 @@
-// Configuració del gràfic
+// Configuració global per als gràfics
 const margin = { top: 20, right: 30, bottom: 50, left: 70 };
 const width = 800 - margin.left - margin.right;
 const height = 400 - margin.top - margin.bottom;
 
-const svg = d3.select("#viz")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-// Dades inicials
+// Dades de mostra per al gràfic de cancel·lacions
 const data = [
     { segment: "Direct", canceled: 12 },
     { segment: "Corporate", canceled: 18 },
@@ -19,7 +12,7 @@ const data = [
     { segment: "Complementary", canceled: 5 }
 ];
 
-// Escales
+// Escales per al gràfic de cancel·lacions
 const x = d3.scaleBand()
     .domain(data.map(d => d.segment))
     .range([0, width])
@@ -29,16 +22,16 @@ const y = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.canceled)])
     .range([height, 0]);
 
-// Eixos
-svg.append("g")
-    .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(x));
+// Gràfic 1: Percentatge de cancel·lacions
+const svgCancellations = d3.select("#viz-cancellations")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
-svg.append("g")
-    .call(d3.axisLeft(y));
-
-// Barres
-svg.selectAll("rect")
+// Dibuixa les barres per al gràfic de cancel·lacions
+svgCancellations.selectAll("rect")
     .data(data)
     .enter()
     .append("rect")
@@ -48,17 +41,23 @@ svg.selectAll("rect")
     .attr("height", d => height - y(d.canceled))
     .attr("fill", "#69b3a2");
 
-// Títol
-svg.append("text")
+// Afegeix els eixos al gràfic de cancel·lacions
+svgCancellations.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x));
+
+svgCancellations.append("g")
+    .call(d3.axisLeft(y));
+
+// Títol del gràfic de cancel·lacions
+svgCancellations.append("text")
     .attr("x", width / 2)
     .attr("y", -10)
     .attr("text-anchor", "middle")
     .attr("font-size", "16px")
     .text("Percentatge de cancel·lacions segons el segment de mercat");
 
-
-
-    // Dades de mostra per a l'estacionalitat (anys, mesos i ocupació)
+// Dades de mostra per al gràfic de calor
 const heatmapData = [
     { year: 2015, month: "January", occupancy: 45 },
     { year: 2015, month: "February", occupancy: 50 },
@@ -72,8 +71,7 @@ const heatmapData = [
     { year: 2015, month: "October", occupancy: 55 },
     { year: 2015, month: "November", occupancy: 50 },
     { year: 2015, month: "December", occupancy: 45 },
-    { year: 2016, month: "January", occupancy: 50 },
-    // (afegir més dades segons necessitats)
+    { year: 2016, month: "January", occupancy: 50 }
 ];
 
 // Ordenar els mesos per ordre cronològic
@@ -82,7 +80,7 @@ const monthsOrder = [
     "July", "August", "September", "October", "November", "December"
 ];
 
-// Escales
+// Escales per al gràfic de calor
 const heatmapX = d3.scaleBand()
     .domain(monthsOrder)
     .range([0, width])
@@ -96,3 +94,39 @@ const heatmapY = d3.scaleBand()
 const colorScale = d3.scaleLinear()
     .domain([40, 100]) // Ajusta segons els valors d'ocupació
     .range(["#e0f3f3", "#007f7f"]);
+
+// Gràfic 2: Gràfic de calor
+const svgHeatmap = d3.select("#viz-heatmap")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// Dibuixa les cel·les del gràfic de calor
+svgHeatmap.selectAll()
+    .data(heatmapData, d => `${d.year}:${d.month}`)
+    .enter()
+    .append("rect")
+    .attr("x", d => heatmapX(d.month))
+    .attr("y", d => heatmapY(d.year))
+    .attr("width", heatmapX.bandwidth())
+    .attr("height", heatmapY.bandwidth())
+    .attr("fill", d => colorScale(d.occupancy))
+    .attr("stroke", "#ffffff");
+
+// Etiquetes per al gràfic de calor
+svgHeatmap.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(heatmapX));
+
+svgHeatmap.append("g")
+    .call(d3.axisLeft(heatmapY));
+
+// Títol del gràfic de calor
+svgHeatmap.append("text")
+    .attr("x", width / 2)
+    .attr("y", -10)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "16px")
+    .text("Gràfic de calor: Ocupació segons mes i any");
